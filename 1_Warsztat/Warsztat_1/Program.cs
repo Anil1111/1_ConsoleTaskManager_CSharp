@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace Warsztat_1
 {
@@ -98,7 +99,7 @@ namespace Warsztat_1
 
 					list.Add(new TaskModel(taskDescription, startDate, endDate, isAllDay, isImportant));
 
-					list.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
+					list.OrderBy(item => item.IsImportant).ThenBy(item => item.StartDate);
 				}
 
 			}
@@ -203,8 +204,7 @@ namespace Warsztat_1
 
 			list.Add(new TaskModel(taskDescription, startDate, endDate, isAllDay, isImportant));
 
-			list.Sort((x, y) => DateTime.Compare(x.StartDate, y.StartDate));
-
+			list.OrderBy(item => item.IsImportant).ThenBy(item => item.StartDate);
 
 			Console.Clear();
 		}
