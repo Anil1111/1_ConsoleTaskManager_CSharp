@@ -143,7 +143,7 @@ namespace Warsztat_1
 			ConsoleEx.WriteLine("Podaj ID zadania które ma zostać usunięte: ", ConsoleColor.Red);
 			int remove = int.Parse(Console.ReadLine());
 
-			list.RemoveAt(remove);
+			list.RemoveAt(remove-1);
 		}
 
 		private static void AddTask(List<TaskModel> list)
