@@ -99,7 +99,7 @@ namespace Warsztat_1
 
 					list.Add(new TaskModel(taskDescription, startDate, endDate, isAllDay, isImportant));
 
-					list.OrderBy(item => item.IsImportant).ThenBy(item => item.StartDate);
+					list.OrderBy(item => item.StartDate).ThenBy(item => item.IsImportant);
 				}
 
 			}
@@ -204,7 +204,7 @@ namespace Warsztat_1
 
 			list.Add(new TaskModel(taskDescription, startDate, endDate, isAllDay, isImportant));
 
-			list.OrderBy(item => item.IsImportant).ThenBy(item => item.StartDate);
+			list.OrderBy(item => item.StartDate).ThenBy(item =>item.IsImportant );
 
 			Console.Clear();
 		}
