@@ -140,10 +140,27 @@ namespace Warsztat_1
 
 		private static void RemoveTask(List<TaskModel> list)
 		{
-			ConsoleEx.WriteLine("Podaj ID zadania które ma zostać usunięte: ", ConsoleColor.Red);
-			int remove = int.Parse(Console.ReadLine());
+			while (true)
+			{
+				ConsoleEx.WriteLine("Podaj ID zadania które ma zostać usunięte: ", ConsoleColor.Red);
+				int remove = int.Parse(Console.ReadLine());
+				try
+				{
+					list.RemoveAt(remove - 1);
+					break;
+				}
+				catch (System.ArgumentOutOfRangeException exception)
+				{
+					Console.Clear();
+					ConsoleEx.WriteLine("Nie znaleziono ID, nacisnij dowolny przycisk aby powrócić do menu", ConsoleColor.Red);
+					Console.ReadKey();
+					Console.Clear();
+					break;
+				}
 
-			list.RemoveAt(remove-1);
+
+			}
+
 		}
 
 		private static void AddTask(List<TaskModel> list)
@@ -158,10 +175,25 @@ namespace Warsztat_1
 			taskDescription = Console.ReadLine();
 
 			ConsoleEx.WriteLine("Podaj datę rozpoczęcia zadania (lub nacisnij Enter aby ustawic datę dzisiejszą) Dopuszczalny format MM/DD/RRRR): ", ConsoleColor.Blue);
-			string startDateText = Console.ReadLine().ToString(CultureInfo.InvariantCulture);
-			if (startDateText == "")
-				startDateText = DateTime.Now.ToString();
-			startDate = Convert.ToDateTime(startDateText);
+
+			while (true)
+			{
+				try
+				{
+					string startDateText = Console.ReadLine().ToString(CultureInfo.InvariantCulture);
+					if (startDateText == "")
+						startDateText = DateTime.Now.ToString();
+					startDate = Convert.ToDateTime(startDateText);
+					break;
+				}
+				catch (System.FormatException exception)
+				{
+					Console.Clear();
+					ConsoleEx.WriteLine("Podany tekst nie odpowiada formatowi daty, spróbuj ponownie",
+						ConsoleColor.Red);
+					Console.ReadKey();
+				}
+			}
 
 			ConsoleEx.WriteLine("Czy jest to zadanie całodniowe? [T/N] ", ConsoleColor.Blue);
 			do
@@ -174,20 +206,33 @@ namespace Warsztat_1
 				}
 				if (decision == "n")
 				{
-					ConsoleEx.WriteLine("Podaj datę planowanego zakończenia zadania (MM/DD/RRRR): ", ConsoleColor.Blue);
-					string endDateText = Console.ReadLine().ToString(CultureInfo.InvariantCulture);
 					do
 					{
+						ConsoleEx.WriteLine("Podaj datę planowanego zakończenia zadania (MM/DD/RRRR): ",
+							ConsoleColor.Blue);
+						string endDateText = Console.ReadLine().ToString(CultureInfo.InvariantCulture);
+
 						if (endDateText == "")
 						{
+							Console.Clear();
 							ConsoleEx.WriteLine("Nieprawidłowa Data, spróbuj ponownie", ConsoleColor.Red);
 							endDateText = Console.ReadLine().ToString(CultureInfo.InvariantCulture);
 						}
 						else
 						{
-							endDate = Convert.ToDateTime(endDateText);
-							break;
+							try
+							{
+								endDate = Convert.ToDateTime(endDateText);
+								break;
+							}
+							catch (System.FormatException exception)
+							{
+								Console.Clear();
+								ConsoleEx.WriteLine("Podany tekst nie odpowiada formatowi daty, nacisnij dowolny przycisk aby spróbować ponownie", ConsoleColor.Red);
+							}
 						}
+
+
 					} while (true);
 
 					break;
@@ -204,7 +249,7 @@ namespace Warsztat_1
 
 			list.Add(new TaskModel(taskDescription, startDate, endDate, isAllDay, isImportant));
 
-			list.OrderBy(item => item.StartDate).ThenBy(item =>item.IsImportant );
+			list.OrderBy(item => item.StartDate).ThenBy(item => item.IsImportant);
 
 			Console.Clear();
 		}
