@@ -1,4 +1,4 @@
-README - Console Task Manager
+<b>README - Console Task Manager</b>
 
 Console Application that helps to manage everyday Tasks. 
 Base functions are: Adding/Removing Tasks, Editing. 
